@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Generation App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Powered Blog Generator - Team GrossMargin</h1>
+
+        <label for="inputText">Enter Blog Topic:</label>
+        <textarea id="inputText" rows="4" placeholder="Enter blog topic..."></textarea>
+
+        <label for="noOfWords">Number of Words:</label>
+        <input type="number" id="noOfWords" placeholder="Enter number of words...">
+
+        <label for="blogStyle">Blog Style:</label>
+        <select id="blogStyle">
+            <option value="Research">Research</option>
+            <option value="Creative">Creative</option>
+            <option value="Technical">Technical</option>
+        </select>
+
+        <button onclick="generateBlog()">Generate</button>
+
+        <div class="result" id="result"></div>
+
+        <h4>Built by Naman Kukreti & Kunal Jindal</h4>
+    </div>
+
+    <script>
+        async function generateBlog() {
+            const inputText = document.getElementById("inputText").value;
+            const noOfWords = document.getElementById("noOfWords").value;
+            const blogStyle = document.getElementById("blogStyle").value;
+
+            const responseDiv = document.getElementById("result");
+
+            // Display loading message
+            responseDiv.innerHTML = "Generating blog... Please wait.";
+
+            // Create the request payload
+            const payload = {
+                input_text: inputText,
+                no_of_words: noOfWords,
+                blog_style: blogStyle
+            };
+
+            // Make a POST request to the backend API
+            const response = await fetch('http://127.0.0.1:5000/generate_blog', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            // Get the JSON response
+            const data = await response.json();
+
+            // Display the generated blog
+            responseDiv.innerHTML = "<strong>Generated Blog:</strong><br>" + data.response;
+        }
+    </script>
+</body>
+</html>
