@@ -1,5 +1,4 @@
 from langchain.llms import CTransformers
-import streamlit as st
 # from langchain_community import CTransformers
 from langchain_community.llms import CTransformers
 from langchain.prompts import PromptTemplate
